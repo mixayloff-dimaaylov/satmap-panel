@@ -1,1 +1,1 @@
-{"version":3,"sources":["../src/module.js"],"names":[],"mappings":";;;;;;;;;AAAO,O;;AACC,kB,kBAAA,Y;;;2BAGN,Y","file":"module.js","sourcesContent":["import _ from 'lodash';\nimport {PieChartCtrl} from './piechart_ctrl';\n\nexport {\n  PieChartCtrl as PanelCtrl\n};\n\n"]}
+{"version":3,"sources":["../src/module.js"],"names":["_","SatMapCtrl"],"mappings":";;;;;;;;;AAAOA,O;;AACCC,gB,gBAAAA,U;;;2BAGNA,U","file":"module.js","sourcesContent":["import _ from 'lodash';\r\nimport {SatMapCtrl} from './satmap_ctrl';\r\n\r\nexport {\r\n  SatMapCtrl as PanelCtrl\r\n};\r\n\r\n"]}

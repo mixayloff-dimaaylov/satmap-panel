@@ -1,7 +1,7 @@
 import _ from 'lodash';
-import {PieChartCtrl} from './piechart_ctrl';
+import {SatMapCtrl} from './satmap_ctrl';
 
 export {
-  PieChartCtrl as PanelCtrl
+  SatMapCtrl as PanelCtrl
 };
 

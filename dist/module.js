@@ -1,18 +1,18 @@
 'use strict';
 
-System.register(['lodash', './piechart_ctrl'], function (_export, _context) {
+System.register(['lodash', './satmap_ctrl'], function (_export, _context) {
   "use strict";
 
-  var _, PieChartCtrl;
+  var _, SatMapCtrl;
 
   return {
     setters: [function (_lodash) {
       _ = _lodash.default;
-    }, function (_piechart_ctrl) {
-      PieChartCtrl = _piechart_ctrl.PieChartCtrl;
+    }, function (_satmap_ctrl) {
+      SatMapCtrl = _satmap_ctrl.SatMapCtrl;
     }],
     execute: function () {
-      _export('PanelCtrl', PieChartCtrl);
+      _export('PanelCtrl', SatMapCtrl);
     }
   };
 });

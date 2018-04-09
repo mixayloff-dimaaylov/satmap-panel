@@ -2,20 +2,43 @@
 	<div class="section gf-form-group">
 		<h5 class="section-heading">Общие</h5>
 		<div class="gf-form">
-			<span class="gf-form-label width-8">Тег спутика</span>
+			<span class="gf-form-label width-10">Тег спутика</span>
 			<input type="text" class="gf-form-input max-width-10" ng-model="ctrl.panel.satTag" ng-change="ctrl.render()">
 		</div>
-		<gf-form-switch class="gf-form" label="Путь спутника" label-class="width-8" checked="ctrl.panel.trace" on-change="ctrl.refresh()"></gf-form-switch>
+		<gf-form-switch class="gf-form" label="Путь спутника" label-class="width-10" checked="ctrl.panel.trace" on-change="ctrl.refresh()"></gf-form-switch>
+		<gf-form-switch class="gf-form" label="Расцветка путей" label-class="width-10" checked="ctrl.panel.colorize" on-change="ctrl.refresh()"></gf-form-switch>
+		<gf-form-switch class="gf-form" label="Круговая проекция" label-class="width-10" checked="ctrl.panel.polar" on-change="ctrl.refresh()"></gf-form-switch>
+	</div>
+
+	<div class="section gf-form-group" ng-if="ctrl.panel.polar">
+		<h5 class="section-heading">Местоположение приемника</h5>
+		<div class="gf-form">
+			<span class="gf-form-label width-10">Широта</span>
+			<input type="text" class="gf-form-input max-width-10" ng-model="ctrl.panel.polarCenter.lat" ng-change="ctrl.render()">
+		</div>
+		<div class="gf-form">
+			<span class="gf-form-label width-10">Долгота</span>
+			<input type="text" class="gf-form-input max-width-10" ng-model="ctrl.panel.polarCenter.lng" ng-change="ctrl.render()">
+		</div>
 	</div>
 
 	<div class="section gf-form-group">
 		<h5 class="section-heading">Список спутников</h5>
-		<gf-form-switch class="gf-form" label="Отображать" label-class="width-8" checked="ctrl.panel.legend.show" on-change="ctrl.refresh()"></gf-form-switch>
+		<gf-form-switch class="gf-form" label="Легенда" label-class="width-10" checked="ctrl.panel.legend.show" on-change="ctrl.refresh()"></gf-form-switch>
+		<gf-form-switch class="gf-form" label="Подписи на карте" label-class="width-10" checked="ctrl.panel.legendOnMap" on-change="ctrl.refresh()"></gf-form-switch>
+	</div>
+
+	<div class="section gf-form-group" ng-if="ctrl.panel.colorize">
+		<h5 class="section-heading">Расцветка путей</h5>
 		<div class="gf-form">
-			<span class="gf-form-label width-8">Положение</span>
-			<div class="gf-form-select-wrapper">
-				<select class="gf-form-input" ng-model="ctrl.panel.legendType" ng-options="t for t in ['На карте', 'Под картой', 'Справа от карты']" ng-change="ctrl.render()"></select>
-			</div>
+			<span class="gf-form-label width-10">Пороги</span>
+			<input type="text" class="gf-form-input max-width-10" array-list ng-model="ctrl.panel.thresholds" ng-change="ctrl.render()">
+		</div>
+		<div class="gf-form">
+			<label class="gf-form-label width-10">Цвета</label>
+			<span class="gf-form-label" ng-repeat="color in ctrl.panel.colors track by $index">
+			  <color-picker color="color" onChange="ctrl.render()"></color-picker>
+			</span>
 		</div>
 	</div>
 </div>

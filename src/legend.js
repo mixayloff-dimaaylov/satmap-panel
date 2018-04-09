@@ -5,7 +5,7 @@ import $ from  'jquery';
 import 'jquery.flot';
 import 'jquery.flot.time';
 
-angular.module('grafana.directives').directive('piechartLegend', function(popoverSrv, $timeout) {
+angular.module('grafana.directives').directive('satmapLegend', function(popoverSrv, $timeout) {
   return {
     link: function(scope, elem) {
       var $container = $('<section class="graph-legend"></section>');
@@ -65,11 +65,6 @@ angular.module('grafana.directives').directive('piechartLegend', function(popove
       }
 
       function render() {
-        if(panel.legendType === 'На карте') {
-          $container.empty();
-          return;
-        }
-
         if (firstRender) {
           elem.append($container);
           $container.on('click', '.graph-legend-icon', openColorSelector);
