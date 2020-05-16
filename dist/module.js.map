@@ -1,1 +1,0 @@
-{"version":3,"sources":["../src/module.js"],"names":["_","SatMapCtrl"],"mappings":";;;;;;;;;AAAOA,O;;AACCC,gB,gBAAAA,U;;;2BAGNA,U","file":"module.js","sourcesContent":["import _ from 'lodash';\r\nimport {SatMapCtrl} from './satmap_ctrl';\r\n\r\nexport {\r\n  SatMapCtrl as PanelCtrl\r\n};\r\n\r\n"]}
