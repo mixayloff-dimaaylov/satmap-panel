@@ -97,8 +97,20 @@ export default class PolarMap {
         this.polar.arc(0, 0, this.drawWidth/2, 0, Math.PI*2); // 1 of grid
         this.polar.stroke();
 
+        let lineDash = this.context.getLineDash();
+        this.polar.beginPath();
+        this.context.strokeStyle = 'blue';
+        this.context.lineWidth = 2;
+        this.context.setLineDash([3, 3]);
+        this.polar.arc(0, 0, this.dToPx(1000000), 0, Math.PI * 2);
+        this.polar.stroke();
+        this.context.setLineDash(lineDash);
+
         this.polar.fillTextCentered(Math.round(this.maxDistance/2000) + " км", Math.PI, this.dToPx(this.maxDistance/2), 10);
         this.polar.fillTextCentered(Math.round(this.maxDistance/2000) + " км", 0, this.dToPx(this.maxDistance/2), 10);
+
+        this.polar.fillTextCentered("1000 км", Math.PI, this.dToPx(1000000), 10);
+        this.polar.fillTextCentered("1000 км", 0, this.dToPx(1000000), 10);
     }
 
     getColor(value) {
