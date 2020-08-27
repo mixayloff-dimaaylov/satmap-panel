@@ -125,12 +125,15 @@ export class SatMapCtrl extends MetricsPanelCtrl {
   }
 
   parseSeries(series) {
+    var green = '#0000FF';
+    var blue = '#00FF00';
+    
     return _.map(this.series, (serie, i) => {
       return {
         label: serie.alias,
         sat: serie.sat,
         data: _(serie.flotpairs).map(point => point[1]).value(),
-        color: this.panel.aliasColors[serie.alias] || this.$rootScope.colors[i],
+        color: (serie.sat.startsWith('GLONASS') ? green : blue),
         timeStep: serie.stats.timeStep || 1
       };
     });
