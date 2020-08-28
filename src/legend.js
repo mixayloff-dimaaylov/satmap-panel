@@ -87,11 +87,20 @@ angular.module('grafana.directives').directive('satmapLegend', function(popoverS
           if (!series.legend) {
             continue;
           }
-
+          
+          var system = series.sat.match(/([A-Z]+)/)[1] || '';
+          var icon;
+          if (system === 'GLONASS'){
+                icon = 'fa-square';
+          }
+          else{
+                icon = 'fa-circle'           
+          }
+          
           var html = '<div class="graph-legend-series';
           html += '" data-series-index="' + i + '">';
           html += '<span class="graph-legend-icon" style="float:none;">';
-          html += '<i class="fa fa-minus fa-rocket pointer" style="color:' + series.color + '"></i>';
+          html += '<i class="fa fa-minus ' + icon + ' pointer" style="color:' + series.color + '"></i>';
           html += '</span>';
 
           html += '<span class="graph-legend-alias" style="float:none;">';
