@@ -46,7 +46,7 @@ export default function link(scope, elem, attrs, ctrl) {
       ctrl.hovers = L.featureGroup();
       ctrl.markers = L.featureGroup();
 
-      L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
+      L.tileLayer('http://st9-ape-ionosphere2m:8080/geoserver/gwc/service/tms/1.0.0/ru@EPSG%3A900913@png/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       }).addTo(ctrl.map);
