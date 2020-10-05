@@ -46,9 +46,10 @@ export default function link(scope, elem, attrs, ctrl) {
       ctrl.hovers = L.featureGroup();
       ctrl.markers = L.featureGroup();
 
-      L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      L.tileLayer.wms('http://localhost:8080/geoserver/gwc/service/wms', {
+        layers: 'ru:geotools_coverage',
+        format: 'image/png',
+        transparent: true
       }).addTo(ctrl.map);
 
       ctrl.markers.addTo(ctrl.map);
