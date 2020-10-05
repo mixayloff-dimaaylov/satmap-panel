@@ -47,7 +47,7 @@ export default function link(scope, elem, attrs, ctrl) {
       ctrl.markers = L.featureGroup();
 
       L.tileLayer.wms('https://st9-ape-ionosphere2m:8080/geoserver/gwc/service/wms', {
-        layers: 'GCC_cc:Stormwaterpipes',
+        layers: 'ru:Ageotools_coverage',
         format: 'image/png',
         transparent: true
       }).addTo(ctrl.map);
