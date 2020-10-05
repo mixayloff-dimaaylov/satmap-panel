@@ -51,11 +51,6 @@ export default function link(scope, elem, attrs, ctrl) {
         format: 'image/png',
         transparent: true
       }).addTo(ctrl.map);
-      
-//       L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
-//         maxZoom: 19,
-//         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-//       }).addTo(ctrl.map);
 
       ctrl.markers.addTo(ctrl.map);
       ctrl.hovers.addTo(ctrl.map);
