@@ -146,13 +146,12 @@ export default function link(scope, elem, attrs, ctrl) {
       .join('<br>')
       .value();
 
-	    var popupContent = '<div style="color: black; line-height: 1.1;">' + 
-		    '<b>' + sat.sat + '</b><br>' + 
+      var popupContent = '<div style="color: black; line-height: 1.1;">' + 
+	'<b>' + sat.sat + '</b><br>' + 
         '<b>Ш:</b> ' + _.last(sat.data).lat + '<br>' +  
         '<b>Д:</b> ' + _.last(sat.data).lng + '<br>' +
-        lastMetrics + 
-        '</div>';
-	    marker.bindPopup(popupContent);
+        lastMetrics + '</div>';
+      marker.bindPopup(popupContent);
       marker.addTo(ctrl.markers);
       marker.on('mouseover', function (e) { this.openPopup(); });
     });
