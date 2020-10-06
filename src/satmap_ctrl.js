@@ -132,6 +132,7 @@ export class SatMapCtrl extends MetricsPanelCtrl {
       return {
         label: serie.alias,
         sat: serie.sat,
+        lastMetrics: serie.lastMetrics,
         data: _(serie.flotpairs).map(point => point[1]).value(),
         color: (serie.sat.startsWith('GLONASS') ? green : blue),
         timeStep: serie.stats.timeStep || 1
@@ -156,6 +157,16 @@ export class SatMapCtrl extends MetricsPanelCtrl {
             }
           });
 
+      
+        group[0].lastMetrics = _.chain(group)
+          .slice(1)
+          .map(function(g) { 
+            return { 
+              label: g.label, 
+              value: _.last(g.flotpairs)[1] 
+            }; 
+          }).value();
+      
         group[0].sat = sat;
         return group[0];
       })
