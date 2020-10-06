@@ -141,7 +141,7 @@ export default function link(scope, elem, attrs, ctrl) {
       var lastMetrics = _.chain(sat)
         .get('lastMetrics', [])
         .map(function (m) { 
-        return '<b>' + m.label + ':</b> ' + m.value;
+        return '<b>' + m.label.split(" ")[0] + ':</b> ' + m.value;
       })
       .join('<br>')
       .value();
