@@ -35,7 +35,9 @@ export class SatMapCtrl extends MetricsPanelCtrl {
       colors: ['#5b94ff', '#58ef5b', '#fff882', '#ff5b5b'],
       polar: false,
       polarCenter: {lat: 45.040638, lng: 41.910311},
-      colorize: false
+      colorize: false,
+      heatmap: false,
+      heatmapField: "S4"
     };
 
     _.defaults(this.panel, panelDefaults);

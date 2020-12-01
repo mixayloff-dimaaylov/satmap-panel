@@ -3,6 +3,8 @@ import $ from 'jquery';
 import './leaflet'
 import './leaflet.css!';
 import './MultiOptionsPolyline'
+import './heatmap'
+import './leaflet-heatmap'
 import PolarMap from './polar_map'
 
 export default function link(scope, elem, attrs, ctrl) {
@@ -62,6 +64,38 @@ export default function link(scope, elem, attrs, ctrl) {
     _.each(data, (sat) => {
       if (_.isEmpty(sat.data)) {
         return;
+      }
+
+      let heatmapData = _.map(data, sat => {
+        var lastMetrics = _.chain(sat)
+          .get('lastMetrics', [])
+          .map(m => _.set({}, m.label.split(" ")[0], m.value))
+          .value();
+  
+        return _.merge({
+          lat: _.last(sat.data).lat,
+          lng: _.last(sat.data).lng
+        }, ...lastMetrics);
+      });
+  
+      let cfg = {
+        radius: 10,
+        useLocalExtrema: false,
+        scaleRadius: true,
+        valueField: panel.heatmapField
+      };
+  
+      if (panel.heatmap) {
+        let heatmapLayer = new HeatmapOverlay(cfg);
+  
+        heatmapLayer
+          .setData({
+            min: 0,
+            max: 0.2,
+            data: heatmapData
+          });
+          
+        heatmapLayer.addTo(ctrl.map);
       }
 
       if (ctrl.panel.trace) {
@@ -140,11 +174,9 @@ export default function link(scope, elem, attrs, ctrl) {
 
       var lastMetrics = _.chain(sat)
         .get('lastMetrics', [])
-        .map(function (m) { 
-        return '<b>' + m.label.split(" ")[0] + ':</b> ' + m.value;
-      })
-      .join('<br>')
-      .value();
+        .map(m => '<b><i>' + m.label.split(" ")[0] + ':</i></b> ' + m.value)
+        .join('<br>')
+        .value();
 
       var popupContent = '<div style="color: black; line-height: 1.1;">' + 
 	'<b>' + sat.sat + '</b><br>' + 
