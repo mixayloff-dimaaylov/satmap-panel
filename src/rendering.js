@@ -3,6 +3,8 @@ import $ from 'jquery';
 import './leaflet'
 import './leaflet.css!';
 import './MultiOptionsPolyline'
+import './heatmap'
+import './leaflet-heatmap'
 import PolarMap from './polar_map'
 
 export default function link(scope, elem, attrs, ctrl) {
@@ -58,6 +60,45 @@ export default function link(scope, elem, attrs, ctrl) {
 
     ctrl.map.invalidateSize();
     ctrl.markers.clearLayers();
+
+    let heatmapData = _.map(data, sat => {
+      let ts = _.chain(sat).get('lastMetrics').last().get('timestamp', 0).value();
+      let diff = (ctrl.range.to.unix() - ts / 1000) / 60; /* минуты */
+
+      if (diff > 5 /* минут */) {
+        return null;
+      }
+
+      var lastMetrics = _.chain(sat)
+        .get('lastMetrics', [])
+        .map(m => _.set({}, m.label.split(" ")[0], m.value * 5 + 0.08))
+        .value();
+
+      return _.merge({
+        lat: _.last(sat.data).lat,
+        lng: _.last(sat.data).lng
+      }, ...lastMetrics);
+    });
+
+    let cfg = {
+      radius: 10,
+      useLocalExtrema: false,
+      scaleRadius: true,
+      valueField: panel.heatmapField
+    };
+
+    if (panel.heatmap) {
+      let heatmapLayer = new HeatmapOverlay(cfg);
+
+      heatmapLayer
+        .setData({
+          min: 0,
+          max: 1.08,
+          data: _.filter(heatmapData)
+        });
+        
+      heatmapLayer.addTo(ctrl.map);
+    }
 
     _.each(data, (sat) => {
       if (_.isEmpty(sat.data)) {
@@ -134,17 +175,15 @@ export default function link(scope, elem, attrs, ctrl) {
 
       if (ctrl.panel.legendOnMap) {
         L.marker(_.last(sat.data), {
-          icon: L.divIcon({html: '<div style="padding: 2px">' + sat.sat + '</div>', iconSize: 'auto', iconAnchor: L.point(-6, -6)})
+          icon: L.divIcon({html: '<div style="padding: 2px; color: black;">' + sat.sat + '</div>', iconSize: 'auto', iconAnchor: L.point(-6, -6)})
         }).addTo(ctrl.markers);
       }
 
       var lastMetrics = _.chain(sat)
         .get('lastMetrics', [])
-        .map(function (m) { 
-        return '<b>' + m.label.split(" ")[0] + ':</b> ' + m.value;
-      })
-      .join('<br>')
-      .value();
+        .map(m => '<b><i>' + m.label.split(" ")[0] + ':</i></b> ' + m.value)
+        .join('<br>')
+        .value();
 
       var popupContent = '<div style="color: black; line-height: 1.1;">' + 
 	'<b>' + sat.sat + '</b><br>' + 
