@@ -61,41 +61,48 @@ export default function link(scope, elem, attrs, ctrl) {
     ctrl.map.invalidateSize();
     ctrl.markers.clearLayers();
 
+    let heatmapData = _.map(data, sat => {
+      let ts = _.chain(sat).get('lastMetrics').last().get('timestamp', 0).value();
+      let diff = (ctrl.range.to.unix() - ts / 1000) / 60; /* минуты */
+
+      if (diff > 5 /* минут */) {
+        return null;
+      }
+
+      var lastMetrics = _.chain(sat)
+        .get('lastMetrics', [])
+        .map(m => _.set({}, m.label.split(" ")[0], m.value * 5 + 0.08))
+        .value();
+
+      return _.merge({
+        lat: _.last(sat.data).lat,
+        lng: _.last(sat.data).lng
+      }, ...lastMetrics);
+    });
+
+    let cfg = {
+      radius: 10,
+      useLocalExtrema: false,
+      scaleRadius: true,
+      valueField: panel.heatmapField
+    };
+
+    if (panel.heatmap) {
+      let heatmapLayer = new HeatmapOverlay(cfg);
+
+      heatmapLayer
+        .setData({
+          min: 0,
+          max: 1.08,
+          data: _.filter(heatmapData)
+        });
+        
+      heatmapLayer.addTo(ctrl.map);
+    }
+
     _.each(data, (sat) => {
       if (_.isEmpty(sat.data)) {
         return;
-      }
-
-      let heatmapData = _.map(data, sat => {
-        var lastMetrics = _.chain(sat)
-          .get('lastMetrics', [])
-          .map(m => _.set({}, m.label.split(" ")[0], m.value))
-          .value();
-  
-        return _.merge({
-          lat: _.last(sat.data).lat,
-          lng: _.last(sat.data).lng
-        }, ...lastMetrics);
-      });
-  
-      let cfg = {
-        radius: 10,
-        useLocalExtrema: false,
-        scaleRadius: true,
-        valueField: panel.heatmapField
-      };
-  
-      if (panel.heatmap) {
-        let heatmapLayer = new HeatmapOverlay(cfg);
-  
-        heatmapLayer
-          .setData({
-            min: 0,
-            max: 0.2,
-            data: heatmapData
-          });
-          
-        heatmapLayer.addTo(ctrl.map);
       }
 
       if (ctrl.panel.trace) {
@@ -168,7 +175,7 @@ export default function link(scope, elem, attrs, ctrl) {
 
       if (ctrl.panel.legendOnMap) {
         L.marker(_.last(sat.data), {
-          icon: L.divIcon({html: '<div style="padding: 2px">' + sat.sat + '</div>', iconSize: 'auto', iconAnchor: L.point(-6, -6)})
+          icon: L.divIcon({html: '<div style="padding: 2px; color: black;">' + sat.sat + '</div>', iconSize: 'auto', iconAnchor: L.point(-6, -6)})
         }).addTo(ctrl.markers);
       }
 

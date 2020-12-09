@@ -165,6 +165,7 @@ export class SatMapCtrl extends MetricsPanelCtrl {
           .map(function(g) { 
             return { 
               label: g.label, 
+              timestamp: _.last(g.flotpairs)[0],
               value: _.last(g.flotpairs)[1] 
             }; 
           }).value();
