@@ -128,7 +128,7 @@ export class SatMapCtrl extends MetricsPanelCtrl {
 
   parseSeries(series) {
     var green = '#013220';
-    var blue = '#AFFF00';
+    var blue = '#2CBDD4';
     
     return _.map(this.series, (serie, i) => {
       return {
